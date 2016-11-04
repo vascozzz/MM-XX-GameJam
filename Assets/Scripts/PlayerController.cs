@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Basic Movement")]
     [SerializeField, Range(1f, 20f)] private float moveSpeed = 6f;
+
+    [Header("Jumping")]
     [SerializeField, Range(0f, 20f)] private float jumpHeight = 4f;
     [SerializeField] private float jumpApexDelay = 0.4f;
     [SerializeField] private bool enableDoubleJump;
@@ -297,8 +299,8 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("WallSliding", wallSliding);
 
         //Flip sprite on input direction
-        if(input.x > 0) sr.flipX = false;
-        if (input.x < 0) sr.flipX = true;
+        if(input.x > 0) sr.flipX = true;
+        if (input.x < 0) sr.flipX = false;
     }
 
     // Utility
