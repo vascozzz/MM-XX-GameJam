@@ -76,7 +76,7 @@ public class CharacterController2D : MonoBehaviour
 
     private float horizontalRaySpacing;
     private float verticalRaySpacing;
-    private Color rayColor = Color.yellow;
+    private Color debugRayColor = Color.yellow;
 
     private BoxCollider2D boxCollider;
     private CharacterRaycastOrigins raycastOrigins;
@@ -166,11 +166,11 @@ public class CharacterController2D : MonoBehaviour
     /// </param>
     public void Move(Vector3 velocity, bool ignoreOneWayPlatforms = false)
     {
-        // stick to moving platforms
-        StickToMovingPlatform(ref velocity);
-
         // set new points to fire raycasts from
         UpdateRaycastOrigins();
+
+        // stick to moving platforms
+        StickToMovingPlatform(ref velocity);
 
         // reset collision state
         collisionState.Reset();
@@ -228,7 +228,7 @@ public class CharacterController2D : MonoBehaviour
             Vector2 rayPos = rayOrigin + Vector2.up * (horizontalRaySpacing * i);
             RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.right * rayDir, rayLength, collisionMask);
 
-            Debug.DrawRay(rayPos, Vector2.right * rayDir * rayLength, rayColor);
+            Debug.DrawRay(rayPos, Vector2.right * rayDir * rayLength, debugRayColor);
 
             if (hit)
             {
@@ -275,7 +275,7 @@ public class CharacterController2D : MonoBehaviour
             Vector2 rayPos = rayOrigin + Vector2.right * (verticalRaySpacing * i + velocity.x);
             RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.up * rayDir, rayLength, verticalCollisionMask);
 
-            Debug.DrawRay(rayPos, Vector2.up * rayDir * rayLength, rayColor);
+            Debug.DrawRay(rayPos, Vector2.up * rayDir * rayLength, debugRayColor);
 
             if (hit)
             {
@@ -456,7 +456,7 @@ public class CharacterController2D : MonoBehaviour
             Vector2 rayPos = raycastOrigins.bottomLeft + Vector2.right * (verticalRaySpacing * i + velocity.x);
             RaycastHit2D hit = Physics2D.Raycast(rayPos, -Vector2.up, rayLength, verticalCollisionMask);
 
-            Debug.DrawRay(rayPos, Vector2.up * rayLength, rayColor);
+            Debug.DrawRay(rayPos, Vector2.up * rayLength, debugRayColor);
 
             if (hit)
             {

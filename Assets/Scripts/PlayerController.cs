@@ -68,11 +68,11 @@ public class PlayerController : MonoBehaviour
         gravity = -(2 * jumpHeight) / Mathf.Pow(jumpApexDelay, 2);
         jumpVelocity = Mathf.Abs(gravity * jumpApexDelay);
 
+        // set default dash direction
         dashDirection = cc.CollisionState.horizontalDir;
 
+        // set collision events
         cc.OnTriggerEnterEvent += OnTriggerEnterEvent;
-
-
     }
 
     void Update()
