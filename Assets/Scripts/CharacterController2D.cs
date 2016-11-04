@@ -97,7 +97,7 @@ public class CharacterController2D : MonoBehaviour
         verticalCollisionMask = collisionMask | oneWayPlatformsMask;
 
         // by default, character is initiated facing right
-        collisionState.horizontalDir = 1;
+        collisionState.horizontalDir = -1;
     }
 
 
