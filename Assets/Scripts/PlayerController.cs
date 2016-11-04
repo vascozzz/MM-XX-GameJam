@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 
+[RequireComponent(typeof(CharacterController2D))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Basic Movement")]
