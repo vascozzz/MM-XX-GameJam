@@ -88,6 +88,9 @@ public class CharacterController2D : MonoBehaviour
     void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
+
+        // by default, character is initiated facing right
+        collisionState.horizontalDir = -1;
     }
 
 
@@ -98,9 +101,6 @@ public class CharacterController2D : MonoBehaviour
 
         // oneWayPlatforms do not collide horizontally, so vertical collisions need a unique mask to check for them
         verticalCollisionMask = collisionMask | oneWayPlatformsMask;
-
-        // by default, character is initiated facing right
-        collisionState.horizontalDir = -1;
     }
 
 

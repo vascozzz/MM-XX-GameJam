@@ -1517,8 +1517,8 @@ MonoBehaviour:
   wallJumpOff: {x: 3, y: 10}
   wallJumpLeap: {x: 3, y: 10}
   enableDash: 1
-  dashSpeed: 30
-  dashDuration: 0.11
+  dashSpeed: 10
+  dashDuration: 0.3
   dashCooldown: 1
 --- !u!114 &1399770456
 MonoBehaviour:
@@ -1555,7 +1555,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: -0.15604794}
   serializedVersion: 2
-  m_Size: {x: 0.45, y: 0.6879041}
+  m_Size: {x: 0.38, y: 0.6879041}
 --- !u!95 &1399770458
 Animator:
   serializedVersion: 3
@@ -1565,7 +1565,7 @@ Animator:
   m_GameObject: {fileID: 1399770452}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9a3fc16dd4e2b2a4e912783189be4bad, type: 2}
+  m_Controller: {fileID: 22100000, guid: 1c2719d1c2258d044a5038144faf792f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1941,7 +1941,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

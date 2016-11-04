@@ -67,6 +67,8 @@ public class PlayerController : MonoBehaviour
         // set gravity and jump velocity based on desired height and apex time
         gravity = -(2 * jumpHeight) / Mathf.Pow(jumpApexDelay, 2);
         jumpVelocity = Mathf.Abs(gravity * jumpApexDelay);
+
+        dashDirection = cc.CollisionState.horizontalDir;
     }
 
     void Update()
@@ -264,21 +266,19 @@ public class PlayerController : MonoBehaviour
         {
             velocity.x = dashSpeed * dashDirection;
         }
+        else
+        {
+            if (input.x != 0f)
+            {
+                dashDirection = input.x;
+            }
+        }
 
         // perform dash
         if (Input.GetKeyDown(KeyCode.K) && Time.time > nextDashTime && !wallSliding)
         {
             nextDashTime = Time.time + dashCooldown;
             dashStopTime = Time.time + dashDuration;
-
-            if (input.x != 0f)
-            {
-                dashDirection = input.x;
-            }
-            else
-            {
-                dashDirection = cc.CollisionState.horizontalDir;
-            }
 
             velocity.x = dashSpeed * dashDirection;
             isDashing = true;
@@ -297,10 +297,19 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Running", isRunning);
         animator.SetInteger("Air", air);
         animator.SetBool("WallSliding", wallSliding);
+        animator.SetBool("Dashing", isDashing);
 
         //Flip sprite on input direction
-        if(input.x > 0) sr.flipX = true;
-        if (input.x < 0) sr.flipX = false;
+        if(!wallSliding)
+        {
+            if (input.x > 0) sr.flipX = true;
+            if (input.x < 0) sr.flipX = false;
+        }
+        else
+        {
+            if (cc.CollisionState.right) sr.flipX = false;
+            if (cc.CollisionState.left) sr.flipX = true;
+        }
     }
 
     // Utility
