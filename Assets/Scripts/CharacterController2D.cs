@@ -427,11 +427,6 @@ public class CharacterController2D : MonoBehaviour
     /// </summary>
     private void StickToMovingPlatform(ref Vector3 velocity)
     {
-        if (velocity.y > 0)
-        {
-            return;
-        }
-
         float rayLength = Mathf.Abs(velocity.y) + skinWidth;
 
         for (int i = 0; i < verticalRayCount; i++)
