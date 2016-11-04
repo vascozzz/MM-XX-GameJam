@@ -28,6 +28,9 @@ public class CharacterController2D : MonoBehaviour
         public Collider2D throughPlatform;
         public bool ignoreOneWayPlatforms;
 
+        public Collider2D bottomPlatform;
+        public Vector2 bottomPlatformOrigin;
+
         public Vector3 initialVelocity;
         public int horizontalDir;
 
@@ -146,6 +149,9 @@ public class CharacterController2D : MonoBehaviour
     /// </param>
     public void Move(Vector3 velocity, bool ignoreOneWayPlatforms = false)
     {
+        // stick to moving platforms
+        StickToMovingPlatform(ref velocity);
+
         // set new points to fire raycasts from
         UpdateRaycastOrigins();
 
@@ -414,5 +420,43 @@ public class CharacterController2D : MonoBehaviour
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Ensures the character moves along with a moving platform and adjusts velocity as needed.
+    /// </summary>
+    private void StickToMovingPlatform(ref Vector3 velocity)
+    {
+        if (velocity.y > 0)
+        {
+            return;
+        }
+
+        float rayLength = Mathf.Abs(velocity.y) + skinWidth;
+
+        for (int i = 0; i < verticalRayCount; i++)
+        {
+            Vector2 rayPos = raycastOrigins.bottomLeft + Vector2.right * (verticalRaySpacing * i + velocity.x);
+            RaycastHit2D hit = Physics2D.Raycast(rayPos, -Vector2.up, rayLength, verticalCollisionMask);
+
+            Debug.DrawRay(rayPos, Vector2.up * rayLength, rayColor);
+
+            if (hit)
+            {
+                if (collisionState.bottomPlatform != hit.collider)
+                {
+                    collisionState.bottomPlatform = hit.collider;
+                    collisionState.bottomPlatformOrigin = hit.transform.position;
+                    break;
+                }
+            }
+        }
+
+        if (collisionState.bottomPlatform != null)
+        {
+            Vector2 offset = (Vector2)collisionState.bottomPlatform.transform.position - collisionState.bottomPlatformOrigin;
+            velocity += (Vector3)offset;
+            collisionState.bottomPlatformOrigin = collisionState.bottomPlatform.transform.position;
+        }      
     }
 }
