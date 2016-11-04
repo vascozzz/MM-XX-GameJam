@@ -69,6 +69,10 @@ public class PlayerController : MonoBehaviour
         jumpVelocity = Mathf.Abs(gravity * jumpApexDelay);
 
         dashDirection = cc.CollisionState.horizontalDir;
+
+        cc.OnTriggerEnterEvent += OnTriggerEnterEvent;
+
+
     }
 
     void Update()
@@ -312,9 +316,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Utility
-    void OnDrawGizmos()
+    void OnTriggerEnterEvent(Collider2D col)
     {
-
+        Debug.Log("onTriggerEnterEvent: " + col.gameObject.name);
     }
 }
