@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d80c95b12a7e44cbac1e91d2663db1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 1780791883}
+  cam: {fileID: 1223887506}
   initialVelocity: 0.5
   velocityIncrement: 0.005
   velocityDecrementDeathPercent: 0.8
@@ -374,7 +374,7 @@ Prefab:
         type: 2}
       propertyPath: cam
       value: 
-      objectReference: {fileID: 1780791883}
+      objectReference: {fileID: 1223887506}
     - target: {fileID: 114000014197079484, guid: 96911574f4a7d4a449fb5f37a6ae0082,
         type: 2}
       propertyPath: spawnPlatform
@@ -1200,7 +1200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ecc25739769a441b528b56a97f0837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 1780791883}
+  cam: {fileID: 1223887506}
   left: 0
 --- !u!1 &1177076621
 GameObject:
@@ -1235,6 +1235,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4000011409142352, guid: 96911574f4a7d4a449fb5f37a6ae0082,
     type: 2}
   m_PrefabInternal: {fileID: 184692104}
+--- !u!20 &1223887506 stripped
+Camera:
+  m_PrefabParentObject: {fileID: 20000010968297584, guid: 92694a0b8d8755042aaf3b6510de3f4c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1091655234}
 --- !u!1 &1292041342
 GameObject:
   m_ObjectHideFlags: 0
@@ -1365,7 +1370,7 @@ Prefab:
         type: 2}
       propertyPath: cam
       value: 
-      objectReference: {fileID: 1780791883}
+      objectReference: {fileID: 1223887506}
     - target: {fileID: 114000011319537222, guid: 4d0325309ab13294d96d530aa425d331,
         type: 2}
       propertyPath: spawnPlatformDistance
@@ -1750,54 +1755,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 11
---- !u!1 &1780791879
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1780791884}
-  - 20: {fileID: 1780791883}
-  - 92: {fileID: 1780791882}
-  - 124: {fileID: 1780791881}
-  - 81: {fileID: 1780791880}
-  - 114: {fileID: 1780791885}
-  - 114: {fileID: 1780791886}
-  - 114: {fileID: 1780791887}
-  m_Layer: 0
-  m_Name: Main Camera
-  m_TagString: MainCamera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!81 &1780791880
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1780791879}
-  m_Enabled: 1
---- !u!124 &1780791881
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1780791879}
-  m_Enabled: 1
---- !u!92 &1780791882
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1780791879}
-  m_Enabled: 1
---- !u!20 &1780791883
-Camera:
-  m_PrefabParentObject: {fileID: 20000010968297584, guid: 92694a0b8d8755042aaf3b6510de3f4c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1091655234}
 --- !u!114 &1836048537 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114000011319537222, guid: 4d0325309ab13294d96d530aa425d331,
@@ -2245,7 +2202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ecc25739769a441b528b56a97f0837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 1780791883}
+  cam: {fileID: 1223887506}
   left: 1
 --- !u!4 &2078983060 stripped
 Transform:
