@@ -5,12 +5,21 @@ public class GameManager : MonoBehaviour
 {
     [HideInInspector] public static GameManager Instance = null;
 
+    [Header("General")]
     [SerializeField] private Camera cam;
+    [SerializeField] private float startVelocity = 1f;
+
+    [Header("Platforms")]
     [SerializeField] private GameObject[] platforms;
     [SerializeField] private GameObject platformsContainer;
+
+    [Header("DeathRays")]
     [SerializeField] private GameObject[] deathRays;
     [SerializeField] private GameObject deathRaysContainer;
-    [SerializeField] private float startVelocity = 1f;
+
+    [Header("Players")]
+    [SerializeField] private GameObject[] players;
+    [SerializeField] private Vector2[] playerSpawns;
 
     private PlatformGenerator genLeft;
     private PlatformGenerator genRight;
@@ -28,6 +37,23 @@ public class GameManager : MonoBehaviour
     }
 
     void Start()
+    {
+        GeneratePlatforms();
+        SpawnPlayers();
+    }
+
+    void SpawnPlayers()
+    {
+        for (int i = 0; i < players.Length; i++)
+        {
+            GameObject playerObj = Instantiate(players[i], playerSpawns[i], Quaternion.identity) as GameObject;
+
+            PlayerInput playerInput = playerObj.GetComponentInChildren<PlayerInput>();
+            playerInput.Initialize(i);
+        }
+    }
+
+    void GeneratePlatforms()
     {
         CamToWorldUtility.CameraBounds camBounds = CamToWorldUtility.GetCameraBoundsInWorld(cam);
         float startY = camBounds.down.y;
@@ -54,6 +80,4 @@ public class GameManager : MonoBehaviour
         genLeft.Generate();
         genRight.Generate();
     }
-
-   
 }
