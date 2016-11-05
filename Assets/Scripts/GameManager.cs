@@ -17,10 +17,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] deathRays;
     [SerializeField] private GameObject deathRaysContainer;
 
-    [Header("Players")]
-    [SerializeField] private GameObject[] players;
-    [SerializeField] private Vector2[] playerSpawns;
-
     private PlatformGenerator genLeft;
     private PlatformGenerator genRight;
 
@@ -39,18 +35,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GeneratePlatforms();
-        SpawnPlayers();
-    }
-
-    void SpawnPlayers()
-    {
-        for (int i = 0; i < players.Length; i++)
-        {
-            GameObject playerObj = Instantiate(players[i], playerSpawns[i], Quaternion.identity) as GameObject;
-
-            PlayerInput playerInput = playerObj.GetComponentInChildren<PlayerInput>();
-            playerInput.Initialize(i);
-        }
     }
 
     void GeneratePlatforms()

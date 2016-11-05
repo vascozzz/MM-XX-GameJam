@@ -6,8 +6,9 @@ using DG.Tweening;
 [RequireComponent(typeof(CharacterController2D))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Basic Movement")]
+    [Header("Basic Movement, Input")]
     [SerializeField, Range(1f, 20f)] private float moveSpeed = 6f;
+    [SerializeField] int inputDeviceId = 0;
 
     [Header("Jumping")]
     [SerializeField, Range(0f, 20f)] private float jumpHeight = 4f;

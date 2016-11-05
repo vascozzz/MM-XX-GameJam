@@ -8,15 +8,15 @@ public class PlayerInput : MonoBehaviour
     private float horizontalLeniency = 0.1f;
     private float verticalLeniency = 0.8f;
 
-    public void Initialize(int playerId)
+    public void Initialize(int inputDeviceId)
     {
-        if (InputManager.Devices.Count - 1 < playerId)
+        if (InputManager.Devices.Count - 1 < inputDeviceId)
         {
             Debug.LogError("Not enough controllers connected.");
         }
         else
         {
-            inputDevice = InputManager.Devices[playerId];
+            inputDevice = InputManager.Devices[inputDeviceId];
         }       
     }
 
