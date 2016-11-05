@@ -161,14 +161,23 @@ public class PlayerController : MonoBehaviour
 
     private void DoubleJump()
     {
-        //Consume double jump
+        // allow for jump when falling through or dropping down a platform
+        if (cc.CollisionState.belowPrev && !cc.CollisionState.below)
+        {
+            hasDoubleJump = true;
+        }
+
+        // consume double jump
         if (playerInput.Jump() && hasDoubleJump)
         {
             velocity.y = jumpVelocity;
             hasDoubleJump = false;
+
+            // reset falling, so we can jump on top of a platform we just passed through
+            cc.StopFallingThrough();
         }
 
-        //Reset double jump if opportunity was lost
+        // reset double jump if opportunity was lost
         if (cc.CollisionState.above || cc.CollisionState.below || wallSliding)
         {
             hasDoubleJump = false;

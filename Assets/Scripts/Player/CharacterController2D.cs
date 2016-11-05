@@ -19,6 +19,7 @@ public class CharacterController2D : MonoBehaviour
         public bool below;
         public bool left;
         public bool right;
+        public bool belowPrev;
 
         public bool ascendingSlope;
         public bool descendingSlope;
@@ -37,6 +38,7 @@ public class CharacterController2D : MonoBehaviour
 
         public void Reset()
         {
+            belowPrev = below;
             above = below = left = right = false;
             ascendingSlope = descendingSlope = false;
             ignoreOneWayPlatforms = false;
@@ -475,6 +477,15 @@ public class CharacterController2D : MonoBehaviour
             velocity += (Vector3)offset;
             collisionState.bottomPlatformOrigin = collisionState.bottomPlatform.transform.position;
         }      
+    }
+
+
+    /// <summary>
+    /// Auxiliar. Allows for double-jumping to reset the state.
+    /// </summary>
+    public void StopFallingThrough()
+    {
+        collisionState.fallingThroughPlatform = false;
     }
 
 
