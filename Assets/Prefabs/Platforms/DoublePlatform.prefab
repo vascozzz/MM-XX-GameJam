@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {x: 0, y: 0}
+  outsideY: 0
 --- !u!212 &212000010186979712
 SpriteRenderer:
   m_ObjectHideFlags: 1

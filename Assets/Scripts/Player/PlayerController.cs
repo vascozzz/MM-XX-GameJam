@@ -31,6 +31,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashDuration = 0.11f;
     [SerializeField] private float dashCooldown = 1f;
 
+    [Header("UI")]
+    [SerializeField] private GameObject redShield;
+    [SerializeField] private GameObject yellowShield;
+    [SerializeField] private GameObject greeenShield;
+
     // Utility
     private Vector2 input;
     private CharacterController2D cc;
@@ -57,12 +62,14 @@ public class PlayerController : MonoBehaviour
     private float nextDashTime;
     private float dashStopTime;
     private float dashDirection;
+    private TrailRenderer rainbowTrail;
 
     void Start()
     {
         cc = GetComponent<CharacterController2D>();
         animator = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        rainbowTrail = GetComponent<TrailRenderer>();
 
         // set gravity and jump velocity based on desired height and apex time
         gravity = -(2 * jumpHeight) / Mathf.Pow(jumpApexDelay, 2);
@@ -72,7 +79,8 @@ public class PlayerController : MonoBehaviour
         dashDirection = cc.CollisionState.horizontalDir;
 
         // set collision events
-        cc.OnTriggerEnterEvent += OnTriggerEnterEvent;
+        cc.OnTriggerStayEvent += OnTriggerStayEvent;
+        cc.OnTriggerExitEvent += OnTriggerExitEvent;
     }
 
     void Update()
@@ -251,18 +259,12 @@ public class PlayerController : MonoBehaviour
 
     private void Dash()
     {
-        // reset dashing on horizontal collisions
-        if (isDashing && (cc.CollisionState.right || cc.CollisionState.left))
+        // reset dashing on horizontal collisions or after set duration
+        if (isDashing && ((cc.CollisionState.right || cc.CollisionState.left) || Time.time > dashStopTime))
         {
             isDashing = false;
             velocity.x = 0f;
-        }
-
-        // reset dashing after set duration
-        if (isDashing && Time.time > dashStopTime)
-        {
-            isDashing = false;
-            velocity.x = 0f;
+            rainbowTrail.enabled = false;
         }
 
         // if dashing, maintain a constant velocity
@@ -286,6 +288,8 @@ public class PlayerController : MonoBehaviour
 
             velocity.x = dashSpeed * dashDirection;
             isDashing = true;
+            rainbowTrail.Clear();
+            rainbowTrail.enabled = true;
         }
     }
 
@@ -316,8 +320,57 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnterEvent(Collider2D col)
+    public void ChangeShield(ColorType color, bool activate)
     {
-        Debug.Log("onTriggerEnterEvent: " + col.gameObject.name);
+        switch (color)
+        {
+            case ColorType.Red:
+                redShield.SetActive(activate);
+                break;
+
+            case ColorType.Yellow:
+                yellowShield.SetActive(activate);
+                break;
+
+            case ColorType.Green:
+                greeenShield.SetActive(activate);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void Die()
+    {
+
+    }
+
+    void OnTriggerStayEvent(Collider2D col)
+    {
+        DeathRayController deathRay = col.GetComponent<DeathRayController>();
+
+        if(deathRay != null)
+        {
+            if(ColorManager.Instance.GetOwner(deathRay.color) == this)
+            {
+                ChangeShield(deathRay.color, true);
+            }
+            else
+            {
+                ChangeShield(deathRay.color, false);
+                Die();
+            }
+        }
+    }
+
+    void OnTriggerExitEvent(Collider2D col)
+    {
+        DeathRayController deathRay = col.GetComponent<DeathRayController>();
+
+        if (deathRay != null)
+        {
+            ChangeShield(deathRay.color, false);
+        }
     }
 }
