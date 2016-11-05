@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerController p1;
     [SerializeField] private PlayerController p2;
     [SerializeField] private float playerDeathDuration = 5f;
+    [SerializeField] private float camDeathShakeDuration = 0.3f;
+    [SerializeField] private float camDeathShakeAmount = 0.05f;
     [SerializeField] private GameObject playerDeathEffect;
     [SerializeField] private float changeSceneDelay = 3f;
 
@@ -100,6 +102,12 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerDeath(PlayerController caller)
     {
+        // death effect
+        Instantiate(playerDeathEffect, caller.transform.position, Quaternion.identity);
+
+        // shake camera
+        StartCoroutine(ShakeCamera(camDeathShakeDuration, camDeathShakeAmount));
+
         // both died, reset
         if (p1.playerDead && p2.playerDead)
         {
@@ -107,9 +115,6 @@ public class GameManager : MonoBehaviour
             StartCoroutine(ChangeScene());
             return;
         }
-
-        // death effect
-        Instantiate(playerDeathEffect, caller.transform.position, Quaternion.identity);
 
         // update other player's velocity
         if (caller == p1)
@@ -132,7 +137,10 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(playerDeathDuration);
 
-        player.Reset();
+        if (!gameOver)
+        {
+            player.Reset();
+        }
     }
 
     private IEnumerator ChangeScene()
@@ -140,5 +148,23 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(changeSceneDelay);
 
         SceneManager.LoadScene("Game");
+    }
+
+    private IEnumerator ShakeCamera(float shakeDuration, float shakeAmount)
+    {
+        Vector3 originalPos = cam.transform.position;
+
+        while (shakeDuration > 0)
+        {
+            Vector3 shake = Random.insideUnitSphere * shakeAmount;
+            shake.z = 0;
+
+            cam.transform.position = originalPos + shake;
+            shakeDuration -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        cam.transform.position = originalPos;
     }
 }

@@ -252,7 +252,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 159898505}
   - 114: {fileID: 159898504}
-  - 114: {fileID: 159898507}
   - 114: {fileID: 159898506}
   m_Layer: 0
   m_Name: GameManager
@@ -289,8 +288,15 @@ MonoBehaviour:
   deathRaysContainer: {fileID: 2127589970}
   p1: {fileID: 1399770455}
   p2: {fileID: 1836048537}
+  playerDeathDuration: 5
+  camDeathShakeDuration: 0.3
+  camDeathShakeAmount: 0.025
   playerDeathEffect: {fileID: 1000013226180924, guid: 35bb8ba440a72df4ca64c51268f6a68f,
     type: 2}
+  changeSceneDelay: 3
+  singleScoreIncrement: 100
+  doubleScoreIncrement: 500
+  deathScoreKeepPercent: 0.9
 --- !u!4 &159898505
 Transform:
   m_ObjectHideFlags: 0
@@ -317,17 +323,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   filename: highscores.dat
   highscoresLen: 10
---- !u!114 &159898507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 159898503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cf73e72f9fab594cbf400b108ae64f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &184692104
 Prefab:
   m_ObjectHideFlags: 0
