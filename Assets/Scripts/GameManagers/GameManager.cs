@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,9 +27,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerController p2;
     [SerializeField] private float playerDeathDuration = 5f;
     [SerializeField] private GameObject playerDeathEffect;
+    [SerializeField] private float changeSceneDelay = 3f;
+
+    [Header("Score")]
+    [SerializeField] private int singleScoreIncrement = 100;
+    [SerializeField] private int doubleScoreIncrement = 500;
+    [SerializeField] private float deathScoreKeepPercent = 0.9f;
 
     private PlatformGenerator p1PlatformsGen;
     private PlatformGenerator p2PlatformsGen;
+    private float currentScore = 0f;
+    private bool gameOver = false;
 
     void Awake()
     {
@@ -71,18 +80,38 @@ public class GameManager : MonoBehaviour
     {
         p1PlatformsGen.Generate();
         p2PlatformsGen.Generate();
+
+        if (gameOver)
+        {
+            return;
+        }
+
+        if (p1.playerDead || p2.playerDead)
+        {
+            currentScore += singleScoreIncrement * Time.deltaTime;
+        }
+        else
+        {
+            currentScore += doubleScoreIncrement * Time.deltaTime;
+        }
+
+        Debug.Log(currentScore);
     }
 
     public void OnPlayerDeath(PlayerController caller)
     {
+        // both died, reset
         if (p1.playerDead && p2.playerDead)
         {
-            Debug.Log("game over, should exit");
+            gameOver = true;
+            StartCoroutine(ChangeScene());
+            return;
         }
 
         // death effect
         Instantiate(playerDeathEffect, caller.transform.position, Quaternion.identity);
 
+        // update other player's velocity
         if (caller == p1)
         {
             p2PlatformsGen.DecrementVelocity(velocityDecrementDeathPercent);
@@ -92,13 +121,24 @@ public class GameManager : MonoBehaviour
             p1PlatformsGen.DecrementVelocity(velocityDecrementDeathPercent);
         }
 
-        RespawnPlayer(caller);
+        // update overall score
+        currentScore *= deathScoreKeepPercent;
+
+        // respawn player
+        StartCoroutine(RespawnPlayer(caller));
     }
 
-    private IEnumerable RespawnPlayer(PlayerController player)
+    private IEnumerator RespawnPlayer(PlayerController player)
     {
         yield return new WaitForSeconds(playerDeathDuration);
 
         player.Reset();
+    }
+
+    private IEnumerator ChangeScene()
+    {
+        yield return new WaitForSeconds(changeSceneDelay);
+
+        SceneManager.LoadScene("Game");
     }
 }

@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
         gameObject.SetActive(true);
 
         // spawn new platform
-        Instantiate(spawnPlatform, transform.position + new Vector3(0f, spawnPlatformOffset, 0f), Quaternion.identity);
+        Instantiate(spawnPlatform, transform.position - new Vector3(0f, spawnPlatformOffset, 0f), Quaternion.identity);
     }
 
     void Update()
