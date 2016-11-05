@@ -390,6 +390,16 @@ MonoBehaviour:
   redShield: {fileID: 1000012880108068}
   yellowShield: {fileID: 1000011125298338}
   greeenShield: {fileID: 1000012866513234}
+  jumpSounds:
+  - {fileID: 8300000, guid: 07aaf172b02f08c42aace58f574cde6a, type: 3}
+  - {fileID: 8300000, guid: c6329a726cfe65f4d83cc7cad354f577, type: 3}
+  - {fileID: 8300000, guid: a69173d6471672a41b730ab310a05499, type: 3}
+  - {fileID: 8300000, guid: 57029ceb5f8acb0419d10717dc07e695, type: 3}
+  - {fileID: 8300000, guid: 6a5be77d3ab662a488edc090117e71c2, type: 3}
+  playerDead: 0
+  cam: {fileID: 0}
+  spawnPlatform: {fileID: 0}
+  spawnPlatformOffset: 0.7
 --- !u!212 &212000010773966868
 SpriteRenderer:
   m_ObjectHideFlags: 1

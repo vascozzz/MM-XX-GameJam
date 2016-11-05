@@ -37,6 +37,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject yellowShield;
     [SerializeField] private GameObject greeenShield;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip[] jumpSounds;
+    [SerializeField] private AudioClip[] doublejumpSounds;
+    [SerializeField] private AudioClip[] dashSounds;
+
     // Utility
     private PlayerInput playerInput;
     private Vector2 input;
@@ -66,6 +71,9 @@ public class PlayerController : MonoBehaviour
     private float dashDirection;
     private TrailRenderer rainbowTrail;
 
+    // Audio
+    private AudioSource audioSource;
+
     // Gamestate
     [HideInInspector] public bool playerDead = false;
     [SerializeField] private Camera cam;
@@ -81,6 +89,7 @@ public class PlayerController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         rainbowTrail = GetComponent<TrailRenderer>();
         playerInput = GetComponent<PlayerInput>();
+        audioSource = GetComponent<AudioSource>();
 
         // set screen bottom for death
         bottomDeath = CamToWorldUtility.GetCameraBoundsInWorld(cam).down.y;
@@ -221,6 +230,7 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y = jumpVelocity;
             hasDoubleJump = true;
+            PlayJump();
         }
     }
 
@@ -237,6 +247,7 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y = jumpVelocity;
             hasDoubleJump = false;
+            PlayDoubleJump();
 
             // reset falling, so we can jump on top of a platform we just passed through
             cc.StopFallingThrough();
@@ -301,6 +312,7 @@ public class PlayerController : MonoBehaviour
             isWallJumping = true;
             wallSliding = false;
             hasDoubleJump = true;
+            PlayJump();
 
             // when jumping against the wall, go up
             if (wallDir == input.x)
@@ -358,6 +370,7 @@ public class PlayerController : MonoBehaviour
             isDashing = true;
             rainbowTrail.Clear();
             rainbowTrail.enabled = true;
+            PlayDash();
         }
     }
 
@@ -447,5 +460,24 @@ public class PlayerController : MonoBehaviour
         {
             ChangeShield(deathRay.color, false);
         }
+    }
+
+    //Audio
+    private void PlayJump()
+    {
+        audioSource.clip = jumpSounds[Random.Range(0, jumpSounds.Length)];
+        audioSource.Play();
+    }
+
+    private void PlayDoubleJump()
+    {
+        audioSource.clip = doublejumpSounds[Random.Range(0, doublejumpSounds.Length)];
+        audioSource.Play();
+    }
+
+    private void PlayDash()
+    {
+        audioSource.clip = dashSounds[Random.Range(0, dashSounds.Length)];
+        audioSource.Play();
     }
 }
