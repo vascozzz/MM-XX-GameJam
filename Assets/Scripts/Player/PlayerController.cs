@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject greeenShield;
 
     // Utility
+    private PlayerInput playerInput;
     private Vector2 input;
     private CharacterController2D cc;
     private Animator animator;
@@ -70,6 +71,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
         rainbowTrail = GetComponent<TrailRenderer>();
+        playerInput = GetComponent<PlayerInput>();
 
         // set gravity and jump velocity based on desired height and apex time
         gravity = -(2 * jumpHeight) / Mathf.Pow(jumpApexDelay, 2);
@@ -86,8 +88,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // get user input
-        input.x = Input.GetAxisRaw("Horizontal");
-        input.y = Input.GetAxisRaw("Vertical");
+        input.x = playerInput.Horizontal();
+        input.y = playerInput.Vertical();
 
         // target velocity
         float acceleration = GetAcceleration();
@@ -158,7 +160,7 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         // perform regular jump
-        if (Input.GetKeyDown(KeyCode.Space) && cc.CollisionState.below)
+        if (playerInput.Jump() && cc.CollisionState.below)
         {
             velocity.y = jumpVelocity;
             hasDoubleJump = true;
@@ -167,14 +169,23 @@ public class PlayerController : MonoBehaviour
 
     private void DoubleJump()
     {
-        //Consume double jump
-        if (Input.GetKeyDown(KeyCode.Space) && hasDoubleJump)
+        // allow for jump when falling through or dropping down a platform
+        if (cc.CollisionState.belowPrev && !cc.CollisionState.below)
+        {
+            hasDoubleJump = true;
+        }
+
+        // consume double jump
+        if (playerInput.Jump() && hasDoubleJump)
         {
             velocity.y = jumpVelocity;
             hasDoubleJump = false;
+
+            // reset falling, so we can jump on top of a platform we just passed through
+            cc.StopFallingThrough();
         }
 
-        //Reset double jump if opportunity was lost
+        // reset double jump if opportunity was lost
         if (cc.CollisionState.above || cc.CollisionState.below || wallSliding)
         {
             hasDoubleJump = false;
@@ -228,7 +239,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // perform walljump, but only when already wallsliding
-        if (Input.GetKeyDown(KeyCode.Space) && wallSliding)
+        if (playerInput.Jump() && wallSliding)
         {
             isWallJumping = true;
             wallSliding = false;
@@ -281,7 +292,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // perform dash
-        if (Input.GetKeyDown(KeyCode.K) && Time.time > nextDashTime && !wallSliding)
+        if (playerInput.Dash() && Time.time > nextDashTime && !wallSliding)
         {
             nextDashTime = Time.time + dashCooldown;
             dashStopTime = Time.time + dashDuration;

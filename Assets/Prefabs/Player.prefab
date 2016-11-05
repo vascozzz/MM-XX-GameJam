@@ -40,6 +40,7 @@ GameObject:
   - 50: {fileID: 50000011575080972}
   - 114: {fileID: 114000010783855170}
   - 114: {fileID: 114000013581186542}
+  - 114: {fileID: 114000012565562026}
   - 96: {fileID: 96000013318429724}
   m_Layer: 8
   m_Name: Player
@@ -198,7 +199,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010382486682}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.0311759, y: -3.4882874, z: 0}
+  m_LocalPosition: {x: -1.55, y: 0.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -346,6 +347,17 @@ MonoBehaviour:
     m_Bits: 2048
   maxAscentAngle: 65
   maxDescentAngle: 65
+--- !u!114 &114000012565562026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010382486682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb72545c031471a4aa21791e19b81a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000013581186542
 MonoBehaviour:
   m_ObjectHideFlags: 1
