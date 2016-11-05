@@ -74,6 +74,9 @@ public class PlayerController : MonoBehaviour
         rainbowTrail = GetComponent<TrailRenderer>();
         playerInput = GetComponent<PlayerInput>();
 
+        // set console controller id
+        playerInput.Initialize(inputDeviceId);
+
         // set gravity and jump velocity based on desired height and apex time
         gravity = -(2 * jumpHeight) / Mathf.Pow(jumpApexDelay, 2);
         jumpVelocity = Mathf.Abs(gravity * jumpApexDelay);
