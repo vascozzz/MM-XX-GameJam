@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
 public class CharacterController2D : MonoBehaviour
 {
     public struct CharacterRaycastOrigins
@@ -64,6 +65,9 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField]
     private LayerMask oneWayPlatformsMask;
 
+    [SerializeField]
+    private LayerMask triggerMask;
+
     [SerializeField, Range(0f, 90f)]
     private float maxAscentAngle = 65f;
 
@@ -72,7 +76,7 @@ public class CharacterController2D : MonoBehaviour
 
     private float horizontalRaySpacing;
     private float verticalRaySpacing;
-    private Color rayColor = Color.yellow;
+    private Color debugRayColor = Color.yellow;
 
     private BoxCollider2D boxCollider;
     private CharacterRaycastOrigins raycastOrigins;
@@ -83,6 +87,10 @@ public class CharacterController2D : MonoBehaviour
     {
         get { return collisionState; }
     }
+
+    public event Action<Collider2D> OnTriggerEnterEvent;
+    public event Action<Collider2D> OnTriggerStayEvent;
+    public event Action<Collider2D> OnTriggerExitEvent;
 
 
     void Awake()
@@ -101,6 +109,15 @@ public class CharacterController2D : MonoBehaviour
 
         // oneWayPlatforms do not collide horizontally, so vertical collisions need a unique mask to check for them
         verticalCollisionMask = collisionMask | oneWayPlatformsMask;
+
+        // player physics should ignore all layers NOT included in the trigger mask
+        for (var i = 0; i < 32; i++)
+        {
+            if ((triggerMask.value & 1 << i) == 0)
+            {
+                Physics2D.IgnoreLayerCollision(gameObject.layer, i);
+            }
+        }
     }
 
 
@@ -149,11 +166,11 @@ public class CharacterController2D : MonoBehaviour
     /// </param>
     public void Move(Vector3 velocity, bool ignoreOneWayPlatforms = false)
     {
-        // stick to moving platforms
-        StickToMovingPlatform(ref velocity);
-
         // set new points to fire raycasts from
         UpdateRaycastOrigins();
+
+        // stick to moving platforms
+        StickToMovingPlatform(ref velocity);
 
         // reset collision state
         collisionState.Reset();
@@ -185,6 +202,7 @@ public class CharacterController2D : MonoBehaviour
         transform.Translate(velocity);
     }
 
+
     /// <summary>
     /// Checks for collisions in the horizontal axis and adjusts velocity as needed. This function is also
     /// responsible for the detection of ascending slopes, as they will first be caught as obstacles in 
@@ -210,7 +228,7 @@ public class CharacterController2D : MonoBehaviour
             Vector2 rayPos = rayOrigin + Vector2.up * (horizontalRaySpacing * i);
             RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.right * rayDir, rayLength, collisionMask);
 
-            Debug.DrawRay(rayPos, Vector2.right * rayDir * rayLength, rayColor);
+            Debug.DrawRay(rayPos, Vector2.right * rayDir * rayLength, debugRayColor);
 
             if (hit)
             {
@@ -257,7 +275,7 @@ public class CharacterController2D : MonoBehaviour
             Vector2 rayPos = rayOrigin + Vector2.right * (verticalRaySpacing * i + velocity.x);
             RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.up * rayDir, rayLength, verticalCollisionMask);
 
-            Debug.DrawRay(rayPos, Vector2.up * rayDir * rayLength, rayColor);
+            Debug.DrawRay(rayPos, Vector2.up * rayDir * rayLength, debugRayColor);
 
             if (hit)
             {
@@ -285,6 +303,7 @@ public class CharacterController2D : MonoBehaviour
             }
         }
 
+
         // when the velocity set to ascend a given slope is too large, we might move into (inside) 
         // a slope with a steeper angle. as a safety check, we'll fire another raycast and, if necessary,
         // re-adjust the velocity to properly climb the new slope
@@ -308,6 +327,7 @@ public class CharacterController2D : MonoBehaviour
             }
         }
     }
+
 
     /// <summary>
     ///  Distributes overall horizontal velocity in both horizontal and vertical axis,
@@ -388,6 +408,7 @@ public class CharacterController2D : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// Checks whether a given obstacle is a oneWayPlatform and should be ignored.
     /// </summary>
@@ -422,6 +443,7 @@ public class CharacterController2D : MonoBehaviour
         return false;
     }
 
+
     /// <summary>
     /// Ensures the character moves along with a moving platform and adjusts velocity as needed.
     /// </summary>
@@ -434,7 +456,7 @@ public class CharacterController2D : MonoBehaviour
             Vector2 rayPos = raycastOrigins.bottomLeft + Vector2.right * (verticalRaySpacing * i + velocity.x);
             RaycastHit2D hit = Physics2D.Raycast(rayPos, -Vector2.up, rayLength, verticalCollisionMask);
 
-            Debug.DrawRay(rayPos, Vector2.up * rayLength, rayColor);
+            Debug.DrawRay(rayPos, Vector2.up * rayLength, debugRayColor);
 
             if (hit)
             {
@@ -453,5 +475,32 @@ public class CharacterController2D : MonoBehaviour
             velocity += (Vector3)offset;
             collisionState.bottomPlatformOrigin = collisionState.bottomPlatform.transform.position;
         }      
+    }
+
+
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        if (OnTriggerEnterEvent != null)
+        {
+            OnTriggerEnterEvent(col);
+        }
+    }
+
+
+    public void OnTriggerStay2D(Collider2D col)
+    {
+        if (OnTriggerStayEvent != null)
+        {
+            OnTriggerStayEvent(col);
+        }
+    }
+
+
+    public void OnTriggerExit2D(Collider2D col)
+    {
+        if (OnTriggerExitEvent != null)
+        {
+            OnTriggerExitEvent(col);
+        }
     }
 }
