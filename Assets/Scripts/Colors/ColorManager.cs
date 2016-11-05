@@ -39,4 +39,25 @@ public class ColorManager : MonoBehaviour {
                 return null;
         }
     }
+
+    public void TryChangeColorOwner(ColorType type, PlayerController caller)
+    {
+        switch (type)
+        {
+            case ColorType.Red:
+                redColor.TryChangeOwner(caller);
+                break;
+
+            case ColorType.Yellow:
+                yellowColor.TryChangeOwner(caller);
+                break;
+
+            case ColorType.Green:
+                greenColor.TryChangeOwner(caller);
+                break;
+
+            default:
+                break;
+        }
+    }
 }

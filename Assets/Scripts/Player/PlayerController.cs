@@ -91,9 +91,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // get user input
-        input.x = playerInput.Horizontal();
-        input.y = playerInput.Vertical();
+        HandleInput();
 
         // target velocity
         float acceleration = GetAcceleration();
@@ -143,6 +141,29 @@ public class PlayerController : MonoBehaviour
 
         // Handle animations
         HandleAnimations();
+    }
+
+    private void HandleInput()
+    {
+        // get direction input
+        input.x = playerInput.Horizontal();
+        input.y = playerInput.Vertical();
+
+        // color
+        if(playerInput.Red())
+        {
+            ColorManager.Instance.TryChangeColorOwner(ColorType.Red, this);
+        }
+
+        if (playerInput.Yellow())
+        {
+            ColorManager.Instance.TryChangeColorOwner(ColorType.Yellow, this);
+        }
+
+        if (playerInput.Green())
+        {
+            ColorManager.Instance.TryChangeColorOwner(ColorType.Green, this);
+        }
     }
 
     private float GetAcceleration()

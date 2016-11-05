@@ -35,11 +35,6 @@ public class ColorController : MonoBehaviour {
     {
         UpdateColorPosition();
         UpdateUI();
-
-        if (Input.GetKeyDown(key))
-        {
-            ChangeOwner();
-        }   
 	}
 
     private void UpdateColorPosition()
@@ -76,8 +71,9 @@ public class ColorController : MonoBehaviour {
         }
     }
 
-    private void ChangeOwner()
+    public void TryChangeOwner(PlayerController caller)
     {
+        if (caller != owner) return;
         if (travelling) return;
         travelling = true;
 

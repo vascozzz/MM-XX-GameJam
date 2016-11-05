@@ -40,6 +40,21 @@ public class PlayerInput : MonoBehaviour
         return inputDevice != null ? inputDevice.RightBumper.WasPressed : false;
     }
 
+    public bool Red()
+    {
+        return inputDevice != null ? inputDevice.Action3.WasPressed : false;
+    }
+
+    public bool Green()
+    {
+        return inputDevice != null ? inputDevice.Action4.WasPressed : false;
+    }
+
+    public bool Yellow()
+    {
+        return inputDevice != null ? inputDevice.Action2.WasPressed : false;
+    }
+
     private float GetInputRaw(float input, float leniency)
     {
         if (input > leniency)
