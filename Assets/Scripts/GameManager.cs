@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject[] platforms;
     [SerializeField] private GameObject platformsContainer;
+    [SerializeField] private GameObject[] deathRays;
+    [SerializeField] private GameObject deathRaysContainer;
     [SerializeField] private float startVelocity = 1f;
 
     private PlatformGenerator genLeft;
@@ -34,7 +36,7 @@ public class GameManager : MonoBehaviour
         float p1LeftCorner = camBounds.left.x;
         float p1RightCorner = camBounds.up.x;
         genLeft = gameObject.AddComponent<PlatformGenerator>();
-        genLeft.Initialize(cam, platforms, platformsContainer, p1LeftCorner, p1RightCorner, startY);
+        genLeft.Initialize(cam, platforms, platformsContainer, deathRays, deathRaysContainer, p1LeftCorner, p1RightCorner, startY);
         genLeft.SetVelocity(startVelocity);
         genLeft.Generate();
 
@@ -42,7 +44,7 @@ public class GameManager : MonoBehaviour
         float p2LeftCorner = camBounds.up.x;
         float p2RightCorner = camBounds.right.x;
         genRight = gameObject.AddComponent<PlatformGenerator>();
-        genRight.Initialize(cam, platforms, platformsContainer, p2LeftCorner, p2RightCorner, startY);
+        genRight.Initialize(cam, platforms, platformsContainer, deathRays, deathRaysContainer, p2LeftCorner, p2RightCorner, startY);
         genRight.SetVelocity(startVelocity + 1f);
         genRight.Generate();
     }
