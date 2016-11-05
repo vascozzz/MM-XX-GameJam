@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSceneName: Game
-  changeSceneDelay: 15
+  changeSceneDelay: 500
 --- !u!114 &1035408505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,8 +321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab27647b0ab98a4bacc11e4878a92b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialClip: {fileID: 8300000, guid: cd89949c30bf22541ba28c3f993a0c9c, type: 3}
-  loopingClip: {fileID: 8300000, guid: 38275e1a1f0cbf042a3b17be9510d2f8, type: 3}
+  initialClip: {fileID: 8300000, guid: 1ced0fe5475fe524bb104066f599c5e3, type: 3}
+  loopingClip: {fileID: 8300000, guid: e4f3a60a765a01249a8364caad44523f, type: 3}
 --- !u!82 &1035408506
 AudioSource:
   m_ObjectHideFlags: 0
@@ -663,6 +663,7 @@ GameObject:
   - 224: {fileID: 1478051000}
   - 222: {fileID: 1478051002}
   - 114: {fileID: 1478051001}
+  - 114: {fileID: 1478051003}
   m_Layer: 5
   m_Name: Logo
   m_TagString: Untagged
@@ -721,6 +722,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1478050999}
+--- !u!114 &1478051003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1478050999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725c9103c2e72d7418a1bea62732e53d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wobble: 55
+  speed: 0.5
 --- !u!1 &1612720686
 GameObject:
   m_ObjectHideFlags: 0

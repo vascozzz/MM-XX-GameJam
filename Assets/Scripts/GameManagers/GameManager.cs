@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(changeSceneDelay);
 
         HighScoreManager.Instance.AddScore((int) currentScore, "MM-XX-GameJam");
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Highscore");
     }
 
     private IEnumerator ShakeCamera(float shakeDuration, float shakeAmount)

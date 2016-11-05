@@ -295,7 +295,7 @@ MonoBehaviour:
   camDeathShakeAmount: 0.025
   playerDeathEffect: {fileID: 1000013226180924, guid: 35bb8ba440a72df4ca64c51268f6a68f,
     type: 2}
-  changeSceneDelay: 3
+  changeSceneDelay: 1
   singleScoreIncrement: 100
   doubleScoreIncrement: 500
   deathScoreKeepPercent: 0.9
@@ -570,6 +570,36 @@ Prefab:
         type: 2}
       propertyPath: Loop
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000014197079484, guid: 96911574f4a7d4a449fb5f37a6ae0082,
+        type: 2}
+      propertyPath: wallJumpClimb.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000014197079484, guid: 96911574f4a7d4a449fb5f37a6ae0082,
+        type: 2}
+      propertyPath: wallJumpClimb.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000014197079484, guid: 96911574f4a7d4a449fb5f37a6ae0082,
+        type: 2}
+      propertyPath: wallJumpOff.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000014197079484, guid: 96911574f4a7d4a449fb5f37a6ae0082,
+        type: 2}
+      propertyPath: wallJumpLeap.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000014197079484, guid: 96911574f4a7d4a449fb5f37a6ae0082,
+        type: 2}
+      propertyPath: wallJumpOff.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000014197079484, guid: 96911574f4a7d4a449fb5f37a6ae0082,
+        type: 2}
+      propertyPath: wallJumpLeap.y
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 96911574f4a7d4a449fb5f37a6ae0082, type: 2}
@@ -1662,6 +1692,36 @@ Prefab:
         type: 2}
       propertyPath: Loop
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011319537222, guid: 4d0325309ab13294d96d530aa425d331,
+        type: 2}
+      propertyPath: wallJumpClimb.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011319537222, guid: 4d0325309ab13294d96d530aa425d331,
+        type: 2}
+      propertyPath: wallJumpClimb.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011319537222, guid: 4d0325309ab13294d96d530aa425d331,
+        type: 2}
+      propertyPath: wallJumpOff.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011319537222, guid: 4d0325309ab13294d96d530aa425d331,
+        type: 2}
+      propertyPath: wallJumpLeap.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011319537222, guid: 4d0325309ab13294d96d530aa425d331,
+        type: 2}
+      propertyPath: wallJumpOff.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011319537222, guid: 4d0325309ab13294d96d530aa425d331,
+        type: 2}
+      propertyPath: wallJumpLeap.y
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4d0325309ab13294d96d530aa425d331, type: 2}
