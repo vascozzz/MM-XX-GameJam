@@ -40,10 +40,7 @@ public class HighScoreManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-    }
 
-    void Start()
-    {
         LoadHighScores();
     }
 
