@@ -179,7 +179,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1787112474}
-  m_RootOrder: 26
+  m_RootOrder: 25
 --- !u!1 &78443555
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +411,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1787112474}
-  m_RootOrder: 25
+  m_RootOrder: 26
 --- !u!114 &114437881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -997,7 +997,6 @@ GameObject:
   - 20: {fileID: 574201297}
   - 92: {fileID: 574201296}
   - 124: {fileID: 574201295}
-  - 81: {fileID: 574201294}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -1005,13 +1004,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &574201294
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 574201293}
-  m_Enabled: 1
 --- !u!124 &574201295
 Behaviour:
   m_ObjectHideFlags: 0
@@ -1595,7 +1587,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!1 &1066691557
 GameObject:
   m_ObjectHideFlags: 0
@@ -1826,7 +1818,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
 --- !u!1 &1330431411
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,7 +2512,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 7
 --- !u!1 &1756685501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2736,10 +2728,10 @@ Transform:
   - {fileID: 569397302}
   - {fileID: 78443556}
   - {fileID: 1221067939}
-  - {fileID: 114437880}
   - {fileID: 15402906}
+  - {fileID: 114437880}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
 --- !u!1 &1812657567
 GameObject:
   m_ObjectHideFlags: 0
@@ -3150,11 +3142,9 @@ Transform:
   m_LocalPosition: {x: -1.3475317, y: 2.9368508, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children:
-  - {fileID: 114437880}
-  - {fileID: 15402906}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &2061814356
 GameObject:
   m_ObjectHideFlags: 0
