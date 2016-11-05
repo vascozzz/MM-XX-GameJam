@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int singleScoreIncrement = 100;
     [SerializeField] private int doubleScoreIncrement = 500;
     [SerializeField] private float deathScoreKeepPercent = 0.9f;
+    [SerializeField] private Text uiScore;
 
     private PlatformGenerator p1PlatformsGen;
     private PlatformGenerator p2PlatformsGen;
@@ -97,7 +99,7 @@ public class GameManager : MonoBehaviour
             currentScore += doubleScoreIncrement * Time.deltaTime;
         }
 
-        Debug.Log(currentScore);
+        uiScore.text = "Score: " + (int)currentScore;
     }
 
     public void OnPlayerDeath(PlayerController caller)
