@@ -66,6 +66,14 @@ public class PlayerController : MonoBehaviour
     private float dashDirection;
     private TrailRenderer rainbowTrail;
 
+    // Gamestate
+    [HideInInspector] public bool playerDead = false;
+    [SerializeField] private Camera cam;
+    [SerializeField] private GameObject spawnPlatform;
+    [SerializeField] private float spawnPlatformOffset = 0.7f;
+    private float bottomDeath;
+    private Vector3 initialPos;
+
     void Start()
     {
         cc = GetComponent<CharacterController2D>();
@@ -73,6 +81,9 @@ public class PlayerController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         rainbowTrail = GetComponent<TrailRenderer>();
         playerInput = GetComponent<PlayerInput>();
+
+        // set screen bottom for death
+        bottomDeath = CamToWorldUtility.GetCameraBoundsInWorld(cam).down.y;
 
         // set console controller id
         playerInput.Initialize(inputDeviceId);
@@ -87,6 +98,21 @@ public class PlayerController : MonoBehaviour
         // set collision events
         cc.OnTriggerStayEvent += OnTriggerStayEvent;
         cc.OnTriggerExitEvent += OnTriggerExitEvent;
+
+        // reset player pos, stats, etc
+        initialPos = transform.position;
+
+        Reset();
+    }
+
+    public void Reset()
+    {
+        playerDead = false;
+        transform.position = initialPos;
+        gameObject.SetActive(true);
+
+        // spawn new platform
+        Instantiate(spawnPlatform, transform.position + new Vector3(0f, spawnPlatformOffset, 0f), Quaternion.identity);
     }
 
     void Update()
@@ -139,8 +165,14 @@ public class PlayerController : MonoBehaviour
         // attempt to move
         cc.Move(velocity * Time.deltaTime, input.y == -1f);
 
-        // Handle animations
+        // handle animations
         HandleAnimations();
+
+        // handler death on screen bottom
+        if (transform.position.y < bottomDeath)
+        {
+            OnPlayerDeath();
+        }
     }
 
     private void HandleInput()
@@ -377,30 +409,37 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Die()
+    private void OnPlayerDeath()
     {
-
+        playerDead = true;
+        gameObject.SetActive(false);
+        GameManager.Instance.OnPlayerDeath(this);
     }
 
-    void OnTriggerStayEvent(Collider2D col)
+    private void OnTriggerStayEvent(Collider2D col)
     {
+        if (playerDead)
+        {
+            return;
+        }
+
         DeathRayController deathRay = col.GetComponent<DeathRayController>();
 
         if(deathRay != null)
         {
-            if(ColorManager.Instance.GetOwner(deathRay.color) == this)
+            if (ColorManager.Instance.GetOwner(deathRay.color) == this)
             {
                 ChangeShield(deathRay.color, true);
             }
             else
             {
                 ChangeShield(deathRay.color, false);
-                Die();
+                OnPlayerDeath();
             }
         }
     }
 
-    void OnTriggerExitEvent(Collider2D col)
+    private void OnTriggerExitEvent(Collider2D col)
     {
         DeathRayController deathRay = col.GetComponent<DeathRayController>();
 

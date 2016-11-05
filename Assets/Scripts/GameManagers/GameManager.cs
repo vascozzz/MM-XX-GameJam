@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private float initialVelocity = 0.5f;
     [SerializeField] private float velocityIncrement = 0.05f;
+    [SerializeField] private float velocityDecrementDeathPercent = 0.8f;
 
     [Header("Platforms")]
     [SerializeField] private GameObject[] platforms;
@@ -20,8 +21,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float deathRaysOffset = 1f;
     [SerializeField] private GameObject deathRaysContainer;
 
-    private PlatformGenerator genLeft;
-    private PlatformGenerator genRight;
+    [Header("Players")]
+    [SerializeField] private PlayerController p1;
+    [SerializeField] private PlayerController p2;
+    [SerializeField] private float playerDeathDuration = 5f;
+    [SerializeField] private GameObject playerDeathEffect;
+
+    private PlatformGenerator p1PlatformsGen;
+    private PlatformGenerator p2PlatformsGen;
 
     void Awake()
     {
@@ -48,21 +55,50 @@ public class GameManager : MonoBehaviour
         // left player
         float p1LeftCorner = camBounds.left.x;
         float p1RightCorner = camBounds.up.x;
-        genLeft = gameObject.AddComponent<PlatformGenerator>();
-        genLeft.Initialize(cam, platforms, platformsContainer, deathRays, deathRaysContainer, p1LeftCorner, p1RightCorner, startY, deathRaysProbability, deathRaysOffset, initialVelocity, velocityIncrement);
-        genLeft.Generate();
+        p1PlatformsGen = gameObject.AddComponent<PlatformGenerator>();
+        p1PlatformsGen.Initialize(cam, platforms, platformsContainer, deathRays, deathRaysContainer, p1LeftCorner, p1RightCorner, startY, deathRaysProbability, deathRaysOffset, initialVelocity, velocityIncrement);
+        p1PlatformsGen.Generate();
 
         // right player
         float p2LeftCorner = camBounds.up.x;
         float p2RightCorner = camBounds.right.x;
-        genRight = gameObject.AddComponent<PlatformGenerator>();
-        genRight.Initialize(cam, platforms, platformsContainer, deathRays, deathRaysContainer, p2LeftCorner, p2RightCorner, startY, deathRaysProbability, deathRaysOffset, initialVelocity, velocityIncrement);
-        genRight.Generate();
+        p2PlatformsGen = gameObject.AddComponent<PlatformGenerator>();
+        p2PlatformsGen.Initialize(cam, platforms, platformsContainer, deathRays, deathRaysContainer, p2LeftCorner, p2RightCorner, startY, deathRaysProbability, deathRaysOffset, initialVelocity, velocityIncrement);
+        p2PlatformsGen.Generate();
     }
 
     void Update()
     {
-        genLeft.Generate();
-        genRight.Generate();
+        p1PlatformsGen.Generate();
+        p2PlatformsGen.Generate();
+    }
+
+    public void OnPlayerDeath(PlayerController caller)
+    {
+        if (p1.playerDead && p2.playerDead)
+        {
+            Debug.Log("game over, should exit");
+        }
+
+        // death effect
+        Instantiate(playerDeathEffect, caller.transform.position, Quaternion.identity);
+
+        if (caller == p1)
+        {
+            p2PlatformsGen.DecrementVelocity(velocityDecrementDeathPercent);
+        }
+        else
+        {
+            p1PlatformsGen.DecrementVelocity(velocityDecrementDeathPercent);
+        }
+
+        RespawnPlayer(caller);
+    }
+
+    private IEnumerable RespawnPlayer(PlayerController player)
+    {
+        yield return new WaitForSeconds(playerDeathDuration);
+
+        player.Reset();
     }
 }

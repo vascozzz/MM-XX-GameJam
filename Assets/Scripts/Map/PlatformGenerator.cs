@@ -106,6 +106,11 @@ public class PlatformGenerator : MonoBehaviour {
     public void UpdateVelocity()
     {
         currentVelocity += velocityIncrement * Time.deltaTime;
-        Debug.Log(currentVelocity);
+
+    }
+
+    public void DecrementVelocity(float percent)
+    {
+        currentVelocity *= percent;
     }
 }
