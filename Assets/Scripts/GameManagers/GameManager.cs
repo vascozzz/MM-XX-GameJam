@@ -7,7 +7,8 @@ public class GameManager : MonoBehaviour
 
     [Header("General")]
     [SerializeField] private Camera cam;
-    [SerializeField] private float startVelocity = 1f;
+    [SerializeField] private float initialVelocity = 0.5f;
+    [SerializeField] private float velocityIncrement = 0.05f;
 
     [Header("Platforms")]
     [SerializeField] private GameObject[] platforms;
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     [Header("DeathRays")]
     [SerializeField] private GameObject[] deathRays;
+    [SerializeField] private float deathRaysProbability = 0.05f;
+    [SerializeField] private float deathRaysOffset = 1f;
     [SerializeField] private GameObject deathRaysContainer;
 
     private PlatformGenerator genLeft;
@@ -46,16 +49,14 @@ public class GameManager : MonoBehaviour
         float p1LeftCorner = camBounds.left.x;
         float p1RightCorner = camBounds.up.x;
         genLeft = gameObject.AddComponent<PlatformGenerator>();
-        genLeft.Initialize(cam, platforms, platformsContainer, deathRays, deathRaysContainer, p1LeftCorner, p1RightCorner, startY);
-        genLeft.SetVelocity(startVelocity);
+        genLeft.Initialize(cam, platforms, platformsContainer, deathRays, deathRaysContainer, p1LeftCorner, p1RightCorner, startY, deathRaysProbability, deathRaysOffset, initialVelocity, velocityIncrement);
         genLeft.Generate();
 
         // right player
         float p2LeftCorner = camBounds.up.x;
         float p2RightCorner = camBounds.right.x;
         genRight = gameObject.AddComponent<PlatformGenerator>();
-        genRight.Initialize(cam, platforms, platformsContainer, deathRays, deathRaysContainer, p2LeftCorner, p2RightCorner, startY);
-        genRight.SetVelocity(startVelocity + 1f);
+        genRight.Initialize(cam, platforms, platformsContainer, deathRays, deathRaysContainer, p2LeftCorner, p2RightCorner, startY, deathRaysProbability, deathRaysOffset, initialVelocity, velocityIncrement);
         genRight.Generate();
     }
 

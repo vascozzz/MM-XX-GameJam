@@ -7,19 +7,23 @@ public class PlatformGenerator : MonoBehaviour {
     private GameObject platformsContainer;
     private GameObject[] deathRays;
     private GameObject deathRaysContainer;
-    private float velocity = 0.8f;
     private float padding = 5f;
+    private float deathRaysProbability;
+    private float deathRaysOffset;
+    private float currentVelocity;
+    private float velocityIncrement;
 
     private float currentGenY;
     private Transform lastGen = null;
 
-    private Camera cam;
+    private CamToWorldUtility.CameraBounds camBounds;
     private float leftCorner;
     private float rightCorner;
 
-    public void Initialize(Camera cam, GameObject[] platforms, GameObject platformsContainer, GameObject[] deathRays,  GameObject deathRaysContainer, float leftCorner, float rightCorner, float startY)
+    public void Initialize(Camera cam, GameObject[] platforms, GameObject platformsContainer, GameObject[] deathRays, GameObject deathRaysContainer, 
+        float leftCorner, float rightCorner, float startY, float deathRaysProbability, float deathRaysOffset, float initialVelocity, float velocityIncrement)
     {
-        this.cam = cam;
+        this.camBounds = CamToWorldUtility.GetCameraBoundsInWorld(cam);
         this.platforms = platforms;
         this.platformsContainer = platformsContainer;
         this.deathRays = deathRays;
@@ -27,6 +31,10 @@ public class PlatformGenerator : MonoBehaviour {
         this.leftCorner = leftCorner;
         this.rightCorner = rightCorner;
         this.currentGenY = startY;
+        this.deathRaysProbability = deathRaysProbability;
+        this.deathRaysOffset = deathRaysOffset;
+        this.currentVelocity = initialVelocity;
+        this.velocityIncrement = velocityIncrement;
     }
 
     public void Generate()
@@ -36,8 +44,6 @@ public class PlatformGenerator : MonoBehaviour {
 
     private void GeneratePlatform()
     {
-        CamToWorldUtility.CameraBounds camBounds = CamToWorldUtility.GetCameraBoundsInWorld(cam);
-
         if (lastGen != null) currentGenY = lastGen.position.y;
 
         float topEdge = camBounds.up.y + padding;
@@ -45,7 +51,11 @@ public class PlatformGenerator : MonoBehaviour {
 
         while (currentGenY + randomGap < topEdge)
         {
-            if (Random.Range(0f, 100f) < 10f)
+            // only increment velocity whenever a new platform is generated
+            UpdateVelocity();
+
+            // generate a deathray every so often
+            if (Random.value < deathRaysProbability)
             {
                 GenerateDeathRay();
             }
@@ -63,7 +73,7 @@ public class PlatformGenerator : MonoBehaviour {
             GameObject platformObj = Instantiate(platform, new Vector3(platformPosX, currentGenY, 0), Quaternion.identity, platformsContainer.transform) as GameObject;
 
             PlatformController platCtrl = platformObj.GetComponent<PlatformController>();
-            platCtrl.movement = new Vector2(0f, -velocity);
+            platCtrl.movement = new Vector2(0f, -currentVelocity);
             platCtrl.outsideY = camBounds.down.y - padding;
 
             lastGen = platformObj.transform;
@@ -72,18 +82,20 @@ public class PlatformGenerator : MonoBehaviour {
 
     private void GenerateDeathRay()
     {
-        CamToWorldUtility.CameraBounds camBounds = CamToWorldUtility.GetCameraBoundsInWorld(cam);
         float topEdge = camBounds.up.y + padding;
 
         GameObject deathRay = deathRays[Random.Range(0, deathRays.Length)];
 
-        Vector3 deathRayPos = new Vector3(Mathf.Lerp(leftCorner, rightCorner, 0.5f), topEdge, 0f);
+        // offset to separate rays from platforms, as they're generated at the same time
+        Vector3 deathRayPosOffset = new Vector3(0f, Random.Range(0f, deathRaysOffset), 0f);
+        Vector3 deathRayPos = new Vector3(Mathf.Lerp(leftCorner, rightCorner, 0.5f), topEdge, 0f) + deathRayPosOffset;
+
         float deathRayNewScaleX = (camBounds.right.x - camBounds.left.x) / 2f;
 
         GameObject deathRayObj = Instantiate(deathRay, deathRayPos, Quaternion.identity, deathRaysContainer.transform) as GameObject;
 
         PlatformController platCtrl = deathRayObj.GetComponent<PlatformController>();
-        platCtrl.movement = new Vector2(0f, -velocity);
+        platCtrl.movement = new Vector2(0f, -currentVelocity);
         platCtrl.outsideY = camBounds.down.y - padding;
 
         Vector3 deathRayNewScale = deathRayObj.transform.localScale;
@@ -91,9 +103,9 @@ public class PlatformGenerator : MonoBehaviour {
         deathRayObj.transform.localScale = deathRayNewScale;
     }
 
-
-    public void SetVelocity(float velocity)
+    public void UpdateVelocity()
     {
-        this.velocity = velocity;
+        currentVelocity += velocityIncrement * Time.deltaTime;
+        Debug.Log(currentVelocity);
     }
 }

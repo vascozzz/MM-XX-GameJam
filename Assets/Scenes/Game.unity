@@ -252,6 +252,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 159898505}
   - 114: {fileID: 159898504}
+  - 114: {fileID: 159898507}
   - 114: {fileID: 159898506}
   m_Layer: 0
   m_Name: GameManager
@@ -272,7 +273,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1780791883}
-  startVelocity: 1
+  initialVelocity: 0.5
+  velocityIncrement: 0.005
   platforms:
   - {fileID: 1000011820863920, guid: 1ad2458c02b5c314ebe1a1be949afda7, type: 2}
   - {fileID: 1000010247170854, guid: cb68393f42020bf4989321c62ef81bd2, type: 2}
@@ -281,6 +283,8 @@ MonoBehaviour:
   - {fileID: 1000011862396818, guid: 25d106b71ca442f4db30261de83af6b6, type: 2}
   - {fileID: 1000011862396818, guid: 9441d624ae1deca4c81395f49dba0d57, type: 2}
   - {fileID: 1000011862396818, guid: 3ea5430da88140e40ae27fccee256ae5, type: 2}
+  deathRaysProbability: 0.05
+  deathRaysOffset: 1
   deathRaysContainer: {fileID: 2127589970}
 --- !u!4 &159898505
 Transform:
@@ -308,6 +312,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   filename: highscores.dat
   highscoresLen: 10
+--- !u!114 &159898507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 159898503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf73e72f9fab594cbf400b108ae64f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &184692104
 Prefab:
   m_ObjectHideFlags: 0
