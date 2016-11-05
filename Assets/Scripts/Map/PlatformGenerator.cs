@@ -32,11 +32,6 @@ public class PlatformGenerator : MonoBehaviour {
     public void Generate()
     {
         GeneratePlatform();
-
-        if (Random.Range(0f, 1000f) < 20f)
-        {
-            GenerateDeathRay();
-        }
     }
 
     private void GeneratePlatform()
@@ -50,6 +45,11 @@ public class PlatformGenerator : MonoBehaviour {
 
         while (currentGenY + randomGap < topEdge)
         {
+            if (Random.Range(0f, 100f) < 10f)
+            {
+                GenerateDeathRay();
+            }
+
             currentGenY += randomGap;
 
             GameObject platform = platforms[Random.Range(0, platforms.Length)];
